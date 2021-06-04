@@ -28,18 +28,8 @@ public class CalculateString {
                 if (Character.isDigit(chars[r])) {
                     currentValue = currentValue + chars[r];
                     if (r == input.length() -1) {
-                        if (currentResult == -1) {
-                            currentResult = Integer.valueOf(currentValue);
-                        } else if (lastOperator == '*') {
-                            currentResult = currentResult * Integer.valueOf(currentValue);
-                        } else if (lastOperator == '/') {
-                            currentResult = currentResult / Integer.valueOf(currentValue);
-                        }
-                        if (chars[l] == '+') {
-                            result += currentResult;
-                        } else {
-                            result -= currentResult;
-                        }
+                        currentResult = getCurrentResult(currentResult, currentValue, lastOperator);
+                        result = getResult(result, currentResult, chars[l]);
                         l = r + 1;
                         break;
                     }
@@ -47,31 +37,15 @@ public class CalculateString {
                     continue;
                 }
                 if (chars[r] == '*' || chars[r] == '/') {
-                    if (currentResult == -1) {
-                        currentResult = Integer.valueOf(currentValue);
-                    } else if (lastOperator == '*') {
-                        currentResult = currentResult * Integer.valueOf(currentValue);
-                    } else if (lastOperator == '/') {
-                        currentResult = currentResult / Integer.valueOf(currentValue);
-                    }
+                    currentResult = getCurrentResult(currentResult, currentValue, lastOperator);
                     currentValue = "";
                     lastOperator = chars[r];
                     r++;
                     continue;
                 }
                 if (chars[r] == '+' || chars[r] == '-') {
-                    if (currentResult == -1) {
-                        currentResult = Integer.valueOf(currentValue);
-                    } else if (lastOperator == '*') {
-                        currentResult = currentResult * Integer.valueOf(currentValue);
-                    } else if (lastOperator == '/') {
-                        currentResult = currentResult / Integer.valueOf(currentValue);
-                    }
-                    if (chars[l] == '+') {
-                        result += currentResult;
-                    } else {
-                        result -= currentResult;
-                    }
+                    currentResult = getCurrentResult(currentResult, currentValue, lastOperator);
+                    result = getResult(result, currentResult, chars[l]);
                     l = r;
                     r++;
                     break;
@@ -80,6 +54,26 @@ public class CalculateString {
             }
         }
         return result;
+    }
+
+    private static int getResult(int result, int currentResult, char operator) {
+        if (operator == '+') {
+            result += currentResult;
+        } else {
+            result -= currentResult;
+        }
+        return result;
+    }
+
+    private static int getCurrentResult(int currentResult, String currentValue, char lastOperator) {
+        if (currentResult == -1) {
+            currentResult = Integer.valueOf(currentValue);
+        } else if (lastOperator == '*') {
+            currentResult = currentResult * Integer.valueOf(currentValue);
+        } else if (lastOperator == '/') {
+            currentResult = currentResult / Integer.valueOf(currentValue);
+        }
+        return currentResult;
     }
 
 }
