@@ -8,16 +8,7 @@ import java.util.Random;
 public class MaxAreaOfIsland {
 
     public static void main(String[] args) {
-        Random rand = new Random();
-
-        int[][] islands = new int[10][10];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                islands[i][j] = rand.nextInt(2);
-                System.out.print(islands[i][j] + " ");
-            }
-            System.out.print("\n");
-        }
+        int[][] islands = Helper.getRandomMatrix(10, 10, 2);
 
         int result = findMaxArea(islands);
         System.out.println(result);
